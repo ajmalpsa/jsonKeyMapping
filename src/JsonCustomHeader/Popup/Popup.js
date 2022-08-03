@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dialog, Slide, DialogTitle, DialogContent, DialogActions } from "@material-ui/core"
+import { Dialog, Slide, DialogTitle, DialogContent, DialogActions, IconButton } from "@material-ui/core"
 import CloseIcon from '@material-ui/icons/Close';
 
 
@@ -22,10 +22,13 @@ function Popup({ open = false, onClose = () => { }, actions = '', children, titl
             <DialogTitle id="alert-dialog-slide-title">
                 <div style={{
                     display: 'flex',
-                    justifyContent: 'space-between'
+                    justifyContent: 'space-between',
+                    // alignContent: 'center'
                 }}>
                     <span> {title}</span>
-                    <CloseIcon style={{ cursor: 'pointer' }} onClick={onClose} />
+                    <IconButton edge="start" color="inherit" size='small' onClick={onClose} aria-label="close">
+                        <CloseIcon  />
+                    </IconButton>
                 </div>
             </DialogTitle>
             <DialogContent>

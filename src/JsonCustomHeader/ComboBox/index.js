@@ -15,7 +15,7 @@ const StyledTextField = withStyles({
 })(TextField);
 
 const ComboBox = (props) => {
-  const { name = "Combo box", mappingkey = {}, optionsdata = [], onChange = () => { }, value = '' } = props;
+  const { name = "Combo box", mappingkey = {}, optionsdata = [], onChange = () => { }, value = '', disabled = false } = props;
   let newProps = { ...props };
   delete newProps.value;
   delete newProps.inputValue;
@@ -31,6 +31,7 @@ const ComboBox = (props) => {
   return (
     <React.Fragment>
       <Autocomplete
+        disabled={disabled}
         options={opData}
         value={selectedVal}
         fullWidth

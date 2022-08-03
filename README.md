@@ -13,15 +13,33 @@ npm install --save jsonkeymapping
 ## Usage
 
 ```jsx
-import React, { Component } from 'react'
-
-import MyComponent from 'jsonkeymapping'
+import JsonCustomHeader, { MapFieldsForm } from 'jsonkeymapping'
 import 'jsonkeymapping/dist/index.css'
 
-class Example extends Component {
-  render() {
-    return <MyComponent />
+const App = () => {
+  const jsonRef = useRef(null)
+  const mappedFieldRef = useRef(null)
+
+  const handleClick = () => {
+    jsonRef.current.openModal(
+      jsonData, //Array of objects -> mandatory
+      comboValues, //combo values for mapping field -> Array -> Mandatory -> sample [{code: 'id', name: 'id'}]
+      mappData, //for showing already added mapping form data
+      )
   }
+
+  return (
+    <>
+      <button onClick={handleClick}>Open</button>
+      <JsonCustomHeader ref={jsonRef} />
+      <MapFieldsForm
+        ref={mappedFieldRef}
+        comboValues={comboValues} //combo data for fields => sample [{code: 'id', name: 'id'}]
+        fields={mappData} //for showing already added mapping form data
+        viewOnly={true} //diable editing
+      />
+    </>
+  )
 }
 ```
 

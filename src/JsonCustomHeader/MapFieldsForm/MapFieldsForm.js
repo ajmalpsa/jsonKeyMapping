@@ -2,7 +2,7 @@ import React, { useEffect, useImperativeHandle, useState } from 'react'
 import { Grid } from "@material-ui/core"
 import FieldWithLabel from "../FieldWithLabel"
 
-const MapFields = React.forwardRef(({ fields = [], comboValues = [] }, ref) => {
+const MapFieldsForm = React.forwardRef(({ fields = [], comboValues = [], viewOnly = false }, ref) => {
 
     const [mappedFields, setMappedFieds] = useState([])
 
@@ -33,16 +33,17 @@ const MapFields = React.forwardRef(({ fields = [], comboValues = [] }, ref) => {
     return (
         <Grid container spacing={2}>
             {mappedFields.map((item, index) => {
-                return <MappingForm key={index + 1} item={item} comboValues={comboValues}
+                return <MappingForm key={index + 1} item={item} comboValues={comboValues} disabled={viewOnly}
                     handleChange={(value) => handleChange(index, value, item.field)} />
             })}
         </Grid>
     )
 })
 
-const MappingForm = ({ handleChange = () => { }, item = {}, comboValues = [] }) => {
+const MappingForm = ({ handleChange = () => { }, item = {}, comboValues = [], disabled }) => {
     return <Grid item xs={4}>
         <FieldWithLabel
+            disabled={disabled}
             field={item.field}
             value={item.mappedTo}
             comboValues={comboValues}
@@ -50,4 +51,4 @@ const MappingForm = ({ handleChange = () => { }, item = {}, comboValues = [] }) 
     </Grid>
 }
 
-export default MapFields
+export default MapFieldsForm

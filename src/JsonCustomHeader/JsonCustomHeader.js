@@ -1,9 +1,10 @@
-import React, { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import Popup from './Popup/Popup'
 import MapFields from './components/MapFields'
 import { Button, CircularProgress, makeStyles } from '@material-ui/core'
 import DisplayTable from './DisplayTable'
 import _ from 'lodash'
+import MapFieldsForm from './MapFieldsForm'
 
 const useStyles = makeStyles((theme) => ({
     wrapper: {
@@ -30,15 +31,20 @@ const JsonCustomHeader = forwardRef(({ onSubmit = null }, ref) => {
         fieldCombo: [],
         replacedObjectArray: []
     })
-    const [mappedFields, setMappedFieds] = useState([]) //initial form data
     const [isSubmitLoading, setIsSubmitLoading] = useState(false)
     const tableRef = useRef(null);
+    const mappedFieldRef = useRef(null);
 
-    const formatMappingField = (excelData = [], comboValues = []) => { // to make initial header form data from json
-        let fieldsToMap = Object.keys(excelData[0]).map((header) => {
-            return { field: header, mappedTo: '' }
-        })
-        setMappedFieds(fieldsToMap)
+    const formatMappingField = (excelData = [], comboValues = [], mappData = []) => { // to make initial header form data from json
+        if (mappData.length) {// if passes already assigned fields and mapped data
+            mappedFieldRef.current.setMappedValues(mappData)
+        }
+        else {
+            let fieldsToMap = Object.keys(excelData[0]).map((header) => {
+                return { field: header, mappedTo: '' }
+            })
+            mappedFieldRef.current.setMappedValues(fieldsToMap)
+        }
         setState({ ...state, isOpen: true, fieldCombo: comboValues, json: excelData })
     }
 
@@ -51,9 +57,10 @@ const JsonCustomHeader = forwardRef(({ onSubmit = null }, ref) => {
         })
     }
 
-    const convertJsonKeyToMapped = async () => {
+    const convertJsonKeyToMapped = async (fromRef = false) => {
         setIsSubmitLoading(true)
         let replacements = {}
+        let mappedFields = mappedFieldRef.current.getMappedValues()
         mappedFields.forEach((data) => { //covert mapped values array to object
             replacements = { ...replacements, [data.field]: data.mappedTo }
         })
@@ -66,24 +73,32 @@ const JsonCustomHeader = forwardRef(({ onSubmit = null }, ref) => {
             });
             return replacedObject
         })
-        if (_.isFunction(onSubmit)) await onSubmit(convertedJson)
+        if (_.isFunction(onSubmit) && !fromRef) await onSubmit(convertedJson)
         setState({ ...state, isOpen: false, json: [], fieldCombo: [], replacedObjectArray: convertedJson })
-        console.log(convertedJson);
         setIsSubmitLoading(false)
+        return convertedJson
     }
 
     const handleSubmitClick = () => {
         convertJsonKeyToMapped()
     }
     const handlePreviewtClick = () => {
+        let mappedFields = mappedFieldRef.current.getMappedValues()
         tableRef.current.openTableModal(state.json, mappedFields)
     }
 
     useImperativeHandle(
         ref,
         () => ({
-            openModal(jsonData, mappingFieldCombo) {
-                formatMappingField(jsonData, mappingFieldCombo)
+            openModal(jsonData, mappingFieldCombo, mappData) {
+                formatMappingField(jsonData, mappingFieldCombo, mappData)
+            },
+            getMappedFields() {
+                let mappedFields = mappedFieldRef.current.getMappedValues()
+                return mappedFields
+            },
+            getConvertedJson() {
+                return convertJsonKeyToMapped()
             }
         })
     )
@@ -96,12 +111,12 @@ const JsonCustomHeader = forwardRef(({ onSubmit = null }, ref) => {
                 onClose={handlePopuClose}
                 actions={<div style={{ margin: '0 30px 10px 0', display: 'flex' }}>
                     <div className={classes.wrapper} >
-                        <Button variant="contained" onClick={handlePreviewtClick} size='small' style={{ boxShadow: 'none', marginRight: 5 }} >
+                        <Button color='primary' variant="contained" onClick={handlePreviewtClick} size='small' style={{ boxShadow: 'none', marginRight: "2px" }} >
                             Preview
                         </Button>
                     </div>
                     <div className={classes.wrapper} >
-                        <Button variant="contained"
+                        <Button color='primary' variant="contained"
                             disabled={isSubmitLoading}
                             onClick={handleSubmitClick} size='small' style={{ boxShadow: 'none' }} >
                             Submit
@@ -110,7 +125,7 @@ const JsonCustomHeader = forwardRef(({ onSubmit = null }, ref) => {
                     </div>
                 </div>}
             >
-                <MapFields mappedFields={mappedFields} setMappedFields={setMappedFieds} comboValues={state.fieldCombo} />
+                <MapFieldsForm ref={mappedFieldRef} comboValues={state.fieldCombo} />
             </Popup>
             <DisplayTable ref={tableRef} />
         </React.Fragment>

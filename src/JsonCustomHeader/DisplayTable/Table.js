@@ -12,7 +12,7 @@ const tableStyle = {
     "color": "#404e67",
     "backgroundColor": "transparent",
     "border": "1px solid #e3ebf3",
-    "width": "95%",
+    "width": "100%",
     "margin": "0 auto",
     "clear": "both",
     "borderCollapse": "separate",
@@ -50,7 +50,7 @@ const tdStyle = {
 function Table({ header = [], data = [] }) {
 
     return (
-        <React.Fragment>
+        <div>
             <table style={tableStyle} id="json-table-print" >
                 <thead style={{ background: '#aad7f021', ...trStyle }}>
                     <tr>
@@ -73,7 +73,7 @@ function Table({ header = [], data = [] }) {
                     })}
                 </tbody>
             </table>
-        </React.Fragment>
+        </div>
     )
 }
 

@@ -3,6 +3,7 @@ import _ from 'lodash'
 import React, { forwardRef, useImperativeHandle, useState } from 'react'
 import Popup from '../Popup/Popup'
 import Table from './Table'
+import PrintIcon from '@material-ui/icons/Print';
 
 const DisplayTable = forwardRef((props, ref) => {
 
@@ -37,11 +38,8 @@ const DisplayTable = forwardRef((props, ref) => {
             title="Preview Data"
             onClose={handlePopupClose}
             actions={<div style={{ margin: '0 30px 10px 0' }}>
-                <Button variant="contained" size='small' onClick={printDoc} style={{ boxShadow: 'none', marginRight: 5 }} >
+                <Button startIcon={<PrintIcon />} variant="contained" size='small' color='primary' onClick={printDoc} style={{ boxShadow: 'none' }} >
                     Print
-                </Button>
-                <Button variant="contained" size='small' style={{ boxShadow: 'none' }} >
-                    Submit
                 </Button>
             </div>}
         >

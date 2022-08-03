@@ -2,7 +2,7 @@ import React from 'react'
 import ComboBox from '../ComboBox'
 import "./style.css"
 
-function FieldWithLabel({ field = "", comboValues = [], onChange = () => { }, value = '' }) {
+function FieldWithLabel({ field = "", comboValues = [], onChange = () => { }, value = '', disabled = false }) {
 
     return (
         <div className="row" style={{ margin: "10px" }}>
@@ -11,7 +11,7 @@ function FieldWithLabel({ field = "", comboValues = [], onChange = () => { }, va
                 "display": "table",
                 "borderCollapse": "separate",
                 "width": "100%",
-               
+
                 "borderRight": "0"
             }}>
                 <span className="input-group-addon" style={{
@@ -33,6 +33,7 @@ function FieldWithLabel({ field = "", comboValues = [], onChange = () => { }, va
                 </span>
                 <span style={{ width: '70%' }}>
                     <ComboBox
+                        disabled={disabled}
                         mappingkey={{ label: 'name', value: 'code' }}
                         name="Map To"
                         value={value}
