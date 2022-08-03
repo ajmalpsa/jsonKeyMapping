@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
-import JsonCustomHeader, { MapFieldsForm } from 'jsonkeymapping'
+import {JsonCustomHeader, MapFieldsForm} from 'jsonkeymapping'
+// import { MapFieldsForm }  from 'jsonkeymapping/src/JsonCustomHeader'
 import 'jsonkeymapping/dist/index.css'
 import { excelData } from "./dummyDatas/excel"
 import { comboValues } from "./dummyDatas/comboValues"

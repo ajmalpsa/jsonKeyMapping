@@ -13,8 +13,7 @@ npm install --save jsonkeymapping
 ## Usage
 
 ```jsx
-import JsonCustomHeader, { MapFieldsForm } from 'jsonkeymapping'
-import 'jsonkeymapping/dist/index.css'
+import {JsonCustomHeader, MapFieldsForm} from 'jsonkeymapping'
 
 const App = () => {
   const jsonRef = useRef(null)
