@@ -20,7 +20,7 @@ const App = () => {
   const mappedFieldRef = useRef(null)
 
   const handleClick = () => {
-    jsonRef.current.openModal(excelData, comboValues, mappData)
+    jsonRef.current.openModal(excelData, comboValues)
   }
 
   return <>

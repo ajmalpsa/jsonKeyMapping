@@ -18,6 +18,11 @@ const MapFieldsForm = React.forwardRef(({ fields = [], comboValues = [], viewOnl
         setMappedFieds(tempArray)
     }
 
+    const getMappedValues = () => {
+        return mappedFields.filter((field) => !!field.mappedTo)
+    }
+
+
     useImperativeHandle(
         ref,
         () => ({
@@ -25,7 +30,7 @@ const MapFieldsForm = React.forwardRef(({ fields = [], comboValues = [], viewOnl
                 setMappedFieds(fields)
             },
             getMappedValues() {
-                return mappedFields
+                return getMappedValues()
             }
         })
     )

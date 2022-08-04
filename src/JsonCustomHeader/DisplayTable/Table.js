@@ -30,7 +30,7 @@ const thStyle = {
     "boxSizing": "content-box",
     "verticalAlign": "bottom",
     "borderTop": "1px solid #e3ebf3",
-    "fontWeight": "bold",
+
     "padding": "10px 18px",
     "borderBottom": "transparent",
     "cursor": "pointer",
@@ -55,9 +55,9 @@ function Table({ header = [], data = [] }) {
                 <thead style={{ background: '#aad7f021', ...trStyle }}>
                     <tr>
                         {header.map((head, index) => {
-                            return <th style={thStyle} key={index}>
-                                {head.mappedTo}
-                            </th>
+                            return <td style={thStyle} key={index}>
+                                <span style={{ "fontWeight": "bold", marginRight: '5px'}}>{head.field}</span>({head.mappedTo})
+                            </td>
                         })}
                     </tr>
                 </thead>

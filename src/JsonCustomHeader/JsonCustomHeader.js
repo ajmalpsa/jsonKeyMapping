@@ -1,9 +1,8 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from 'react'
 import Popup from './Popup/Popup'
-import MapFields from './components/MapFields'
 import { Button, CircularProgress, makeStyles } from '@material-ui/core'
 import DisplayTable from './DisplayTable'
-import _ from 'lodash'
+import isFunction from 'lodash/isFunction'
 import MapFieldsForm from './MapFieldsForm'
 
 const useStyles = makeStyles((theme) => ({
@@ -73,7 +72,7 @@ const JsonCustomHeader = forwardRef(({ onSubmit = null }, ref) => {
             });
             return replacedObject
         })
-        if (_.isFunction(onSubmit) && !fromRef) await onSubmit(convertedJson)
+        if (isFunction(onSubmit) && !fromRef) await onSubmit(convertedJson)
         setState({ ...state, isOpen: false, json: [], fieldCombo: [], replacedObjectArray: convertedJson })
         setIsSubmitLoading(false)
         return convertedJson
